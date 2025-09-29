@@ -32,40 +32,13 @@
             color: var(--text-color);
         }
 
-        .top-nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background: var(--muted-sage);
-            /* sage menu bar */
-            color: var(--cream);
-            backdrop-filter: blur(6px);
-            padding: 10px 0;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            border-bottom: 1px solid var(--soft-pink);
-            /* soft-pink accent */
-        }
-
-        .nav-link {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: var(--cream);
-            /* high-contrast on sage */
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            transition: color 0.14s ease, background 0.14s ease, border-color 0.14s ease;
-            border: 1px solid transparent;
-        }
-
-        .nav-link:hover {
-            color: var(--soft-pink);
-            /* hover -> soft pink */
-            background: rgba(247, 228, 228, 0.08);
-            /* faint soft-pink tint */
+        .book-btn:hover,
+        .book-btn:focus,
+        .book-btn:active {
+            background: var(--soft-pink);
+            color: var(--muted-sage);
+            transform: translateY(1px);
+            outline: none;
         }
 
         .nav-link.active {
@@ -172,17 +145,11 @@
 </head>
 
 <body>
-    <!-- <nav class="top-nav">
-        <a href="index.html" class="nav-link">🌮 Food Truck Menu</a>
-        <a href="spa.html" class="nav-link active">🧖‍♀️ Spa Menu</a>
-        <a href="mechanic.html" class="nav-link">🔧 Mechanic Menu</a>
-    </nav> -->
-
     <main class="price-list">
         <h1>Mystic Lash Artist Studio</h1>
         <div class="book-now" aria-label="Book now">
-            <h2>Book now</h2>
-            <a class="book-btn" href="tel:+15597095580">Call (559) 709-5580</a>
+            <a class="book-btn" href="https://app.squareup.com/appointments/book/llldwdhcgo4ojd/LSN1YJS8A43DE/start"
+                target="_blank" rel="noopener noreferrer" aria-label="Book appointment">Book Now</a>
         </div>
         <div id="services-container">
             <p class="status-message">🧘‍♀️ Loading relaxing services...</p>
@@ -191,7 +158,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script>
-        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmu-ceSl89MMl57TZZ1oKTLR2qARV8f11V577RP7sHT8f7WTzrSFIBbCSLFjr_KEdsqpUFOLJKQZKh/pub?output=csv';
+        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRsjGP9cG4Z_evQ0RBuAeyUwtBH19JpxzIs4-QVHkOrjqxx7yIMj3iab4TlAX8YqRy-7jH-IfgA2Iah/pub?output=csv';
         const servicesContainer = document.getElementById('services-container');
 
         /**
