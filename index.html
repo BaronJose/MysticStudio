@@ -41,6 +41,89 @@
             outline: none;
         }
 
+        .book-instruction {
+            text-align: center;
+            margin: 6px 0 0;
+            color: #555;
+            font-size: 0.98em;
+        }
+
+        .contact-card {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            max-width: 520px;
+            margin: 8px auto 18px;
+            padding: 12px;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid rgba(138, 154, 91, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            align-items: center;
+        }
+
+        .contact-left {
+            flex: 1 1 60%;
+            min-width: 180px;
+        }
+
+        .contact-right {
+            flex: 0 0 auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .contact-phone {
+            display: inline-block;
+            font-weight: 700;
+            color: var(--muted-sage);
+            text-decoration: none;
+            margin-bottom: 6px;
+        }
+
+        .contact-phone:focus-visible {
+            outline: 3px solid rgba(138, 154, 91, 0.15);
+            outline-offset: 3px;
+        }
+
+        .contact-address {
+            font-style: normal;
+            color: #666;
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            padding: 6px 8px;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted-sage);
+            text-decoration: none;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .social-links a:hover {
+            background: var(--soft-pink);
+            color: var(--muted-sage);
+            border-color: var(--soft-pink);
+        }
+
+        @media (max-width:420px) {
+            .contact-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .contact-right {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
         .nav-link.active {
             color: var(--soft-pink);
             background: transparent;
@@ -86,6 +169,17 @@
             padding: 12px 16px;
             margin-bottom: 12px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            display: block;
+            /* allow anchor usage */
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* accessible focus state for clickable cards */
+        .service-card:focus-visible {
+            outline: 3px solid rgba(138, 154, 91, 0.15);
+            outline-offset: 4px;
         }
 
         .service-header {
@@ -148,9 +242,29 @@
     <main class="price-list">
         <h1>Mystic Lash Artist Studio</h1>
         <div class="book-now" aria-label="Book now">
-            <a class="book-btn" href="https://app.squareup.com/appointments/book/llldwdhcgo4ojd/LSN1YJS8A43DE/start"
-                target="_blank" rel="noopener noreferrer" aria-label="Book appointment">Book Now</a>
+            <h2>Book now</h2>
+            <p class="book-instruction">Select a service below to book online.</p>
         </div>
+
+        <!-- Contact card: placed under the booking instruction for easy access -->
+        <section class="contact-card" aria-label="Contact information">
+            <div class="contact-left">
+                <a class="contact-phone" href="tel:+15597095580" aria-label="Call (559) 709-5580">📞 (559) 709-5580</a>
+                <address class="contact-address">
+                    123 Main St.<br>
+                    Fresno, CA 93700
+                </address>
+            </div>
+            <div class="contact-right">
+                <div class="social-links" aria-hidden="false">
+                    <a href="https://www.instagram.com/baronxdev" target="_blank" rel="noopener noreferrer"
+                        aria-label="Instagram">IG</a>
+                    <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer"
+                        aria-label="Facebook">FB</a>
+                </div>
+            </div>
+        </section>
+
         <div id="services-container">
             <p class="status-message">🧘‍♀️ Loading relaxing services...</p>
         </div>
@@ -159,6 +273,10 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script>
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRsjGP9cG4Z_evQ0RBuAeyUwtBH19JpxzIs4-QVHkOrjqxx7yIMj3iab4TlAX8YqRy-7jH-IfgA2Iah/pub?output=csv';
+        // Booking link used when a user clicks a service card (opens in new tab)
+        const bookingURL = 'https://app.squareup.com/appointments/book/llldwdhcgo4ojd/LSN1YJS8A43DE/start';
+        // Acceptable CSV columns that may contain a per-service booking link.
+        const bookingColumns = ['BookingLink', 'BookingURL', 'Link', 'URL'];
         const servicesContainer = document.getElementById('services-container');
 
         /**
@@ -167,8 +285,43 @@
          * @returns {HTMLElement} The card element.
          */
         function createServiceCard(service) {
-            const card = document.createElement('div');
-            card.className = 'service-card';
+            // Create anchor wrapper so the whole card is clickable
+            const link = document.createElement('a');
+            link.className = 'service-card';
+
+            // Try to read a per-service booking link from the CSV using several possible column names.
+            let serviceLink = null;
+            for (const col of bookingColumns) {
+                if (service[col] && service[col].trim()) {
+                    serviceLink = service[col].trim();
+                    break;
+                }
+            }
+
+            // Fallback to the global booking URL when no per-service link is present
+            if (!serviceLink) serviceLink = bookingURL;
+
+            // Normalize: if the link looks like a web URL but lacks scheme, add https://
+            if (/^[^:\/?#]+\.[^\s]+$/.test(serviceLink)) {
+                serviceLink = 'https://' + serviceLink;
+            }
+
+            link.href = serviceLink;
+
+            // Open external HTTP(s) links in a new tab; otherwise keep default behavior
+            try {
+                const urlProto = new URL(serviceLink).protocol;
+                if (urlProto === 'http:' || urlProto === 'https:') {
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                }
+            } catch (e) {
+                // if URL parsing fails, still set target to _blank as a safe default
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+            }
+
+            link.setAttribute('aria-label', `Book ${service.Service}`);
 
             const header = document.createElement('div');
             header.className = 'service-header';
@@ -187,9 +340,9 @@
             description.className = 'service-description';
             description.textContent = service.Description;
 
-            card.appendChild(header);
-            card.appendChild(description);
-            return card;
+            link.appendChild(header);
+            link.appendChild(description);
+            return link;
         }
 
         /**
