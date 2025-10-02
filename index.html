@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mystic Studio Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         /* 🎨 CSS variables for easy theming */
         :root {
@@ -235,6 +236,97 @@
             transform: translateY(1px);
             outline: none;
         }
+
+        /*
+ * Styles for the Balanced & Symmetrical Contact Card
+ */
+
+        /* Main container for the card */
+        .contact-info-balanced {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            /* Vertically align items in the center */
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 25px 15px;
+            border: 1px solid #f0e4e7;
+            /* Soft border as in mockup */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            max-width: 600px;
+            /* Adjust width as needed */
+            margin: 20px auto;
+            /* Center the card on the page */
+        }
+
+        /* Styles for each of the three columns */
+        .contact-column {
+            flex: 1;
+            /* Each column takes up equal space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            min-height: 80px;
+            /* Ensures all columns have a consistent height */
+        }
+
+        /* Adds the vertical divider line between columns */
+        .contact-column+.contact-column {
+            border-left: 1px solid #f0e4e7;
+        }
+
+        /* Shared style for the top icons (phone, map) */
+        .contact-icon {
+            font-size: 24px;
+            /* Icon size */
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        /* Main text like the phone number and address */
+        .contact-main-text {
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+            font-size: 1em;
+            /* Adjust as needed */
+            line-height: 1.3;
+        }
+
+        .contact-main-text:hover {
+            color: #d4a5b1;
+            /* A hover color from your theme */
+        }
+
+        /* Helper text like "Call or Text" */
+        .contact-helper-text {
+            font-size: 0.85em;
+            color: #888;
+            margin: 4px 0 0 0;
+        }
+
+        /* Container for the social media icons in the third column */
+        .social-icons-container {
+            display: flex;
+            gap: 25px;
+            /* Space between the social icons */
+        }
+
+        /* Styles for the social media icons */
+        .social-icon {
+            font-size: 26px;
+            /* Size of IG/FB icons */
+            color: #333;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .social-icon:hover {
+            color: #d4a5b1;
+            /* Hover color */
+        }
     </style>
 </head>
 
@@ -247,21 +339,30 @@
         </div>
 
         <!-- Contact card: placed under the booking instruction for easy access -->
-        <section class="contact-card" aria-label="Contact information">
-            <div class="contact-left">
-                <a class="contact-phone" href="tel:+15597095580" aria-label="Call (559) 709-5580">📞 (559) 709-5580</a>
-                <address class="contact-address">
-                    123 Main St.<br>
-                    Fresno, CA 93700
-                </address>
+        <section class="contact-info-balanced" aria-label="Contact information">
+
+            <div class="contact-column">
+                <i class="fas fa-phone-alt contact-icon" aria-hidden="true"></i>
+                <a class="contact-main-text" href="tel:+15597095580">(559) 709-5580</a>
+                <p class="contact-helper-text">Call or Text</p>
             </div>
-            <div class="contact-right">
-                <div class="social-links" aria-hidden="false">
-                    <a href="https://www.instagram.com/baronxdev" target="_blank" rel="noopener noreferrer"
-                        aria-label="Instagram">IG</a>
-                    <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer"
-                        aria-label="Facebook">FB</a>
-                </div>
+
+            <div class="contact-column">
+                <i class="fas fa-map-marker-alt contact-icon" aria-hidden="true"></i>
+                <a class="contact-main-text"
+                    href="https://www.google.com/maps/search/?api=1&query=3642+E+McKinley+Ave,+Fresno,+CA+93703"
+                    target="_blank" rel="noopener noreferrer">
+                    3642 East McKinley Ave
+                </a>
+                <p class="contact-helper-text">Fresno, CA</p>
+            </div>
+
+            <div class="contact-column">
+                <a class="contact-social-link" href="https://www.instagram.com/mysticlashartiststudio" target="_blank"
+                    rel="noopener noreferrer" aria-label="Follow us on Instagram">
+                    <i class="fab fa-instagram social-icon"></i>
+                    <p class="contact-helper-text">Follow us on Instagram</p>
+                </a>
             </div>
         </section>
 
