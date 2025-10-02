@@ -244,38 +244,29 @@
         /* Main container for the card */
         .contact-info-balanced {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            /* Vertically align items in the center */
+            flex-wrap: wrap;
+            /* CHANGED: Allows items to wrap to the next line */
+            gap: 25px 15px;
+            /* CHANGED: Adds vertical and horizontal spacing between items */
+
             background-color: #ffffff;
             border-radius: 12px;
-            padding: 25px 15px;
+            padding: 25px;
+            /* Adjusted padding */
             border: 1px solid #f0e4e7;
-            /* Soft border as in mockup */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-            text-align: center;
             max-width: 600px;
-            /* Adjust width as needed */
             margin: 20px auto;
-            /* Center the card on the page */
         }
 
-        /* Styles for each of the three columns */
+        /* Styles for each of the four columns */
         .contact-column {
-            flex: 1;
-            /* Each column takes up equal space */
+            flex: 1 1 45%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 0 10px;
-            min-height: 80px;
-            /* Ensures all columns have a consistent height */
-        }
-
-        /* Adds the vertical divider line between columns */
-        .contact-column+.contact-column {
-            border-left: 1px solid #f0e4e7;
+            justify-content: space-between;
+            text-align: center;
         }
 
         /* Shared style for the top icons (phone, map) */
@@ -327,6 +318,40 @@
             color: #d4a5b1;
             /* Hover color */
         }
+
+        /* This styles the link that wraps the icon and text */
+        .contact-social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            /* This ensures it takes up the full space like the other columns */
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        /* This updates the Instagram icon to be larger, matching our design */
+        /* It also correctly targets the icon inside the link */
+        .contact-social-link .fab.fa-instagram {
+            font-size: 36px;
+            /* Increased from 26px */
+            margin-bottom: 8px;
+            /* Adds space between icon and text */
+            color: #333;
+            transition: color 0.2s ease-in-out;
+        }
+
+        /* This styles the helper text inside the link */
+        .contact-social-link .contact-helper-text {
+            font-weight: 500;
+            transition: color 0.2s ease-in-out;
+        }
+
+        /* This creates the hover effect for the whole Instagram block */
+        .contact-social-link:hover .fa-instagram,
+        .contact-social-link:hover .contact-helper-text {
+            color: #d4a5b1;
+        }
     </style>
 </head>
 
@@ -340,7 +365,11 @@
 
         <!-- Contact card: placed under the booking instruction for easy access -->
         <section class="contact-info-balanced" aria-label="Contact information">
-
+            <div class="contact-column">
+                <i class="fas fa-building contact-icon" aria-hidden="true"></i>
+                <p class="contact-main-text">Business Hours</p>
+                <p class="contact-helper-text">Tues - Sun, 9am - 5pm</p>
+            </div>
             <div class="contact-column">
                 <i class="fas fa-phone-alt contact-icon" aria-hidden="true"></i>
                 <a class="contact-main-text" href="tel:+15597095580">(559) 709-5580</a>
@@ -358,12 +387,14 @@
             </div>
 
             <div class="contact-column">
-                <a class="contact-social-link" href="https://www.instagram.com/mysticlashartiststudio" target="_blank"
-                    rel="noopener noreferrer" aria-label="Follow us on Instagram">
-                    <i class="fab fa-instagram social-icon"></i>
-                    <p class="contact-helper-text">Follow us on Instagram</p>
-                </a>
-            </div>
+                <div class="contact-column">
+                    <i class="fab fa-instagram contact-icon" aria-hidden="true"></i>
+                    <a class="contact-main-text" href="https://www.instagram.com/mysticlashartiststudio" target="_blank"
+                        rel="noopener noreferrer">
+                        Follow Us
+                    </a>
+                    <p class="contact-helper-text">on Instagram</p>
+                </div>
         </section>
 
         <div id="services-container">
